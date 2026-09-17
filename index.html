@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>À Vista ou Parcelado — o desconto vale o seu dinheiro?</title>
+<meta name="description" content="Comparador à vista vs financiado: quando o desconto à vista supera os juros do parcelamento. Satélite da rede praia.digital">
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f0fdf4;color:#052e16;min-height:100vh}
+header{padding:24px;text-align:center;background:linear-gradient(120deg,#166534,#4ade80);color:#fff}
+nav a{color:#dcfce7;margin:0 8px;text-decoration:none;font-size:14px;font-weight:600}
+.wrap{max-width:720px;margin:auto;padding:24px}
+.panel{background:#fff;border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 6px 18px rgba(22,101,52,.1)}
+label{display:block;margin:10px 0 4px;font-weight:600}
+input{width:100%;padding:12px;border-radius:10px;border:2px solid #bbf7d0;font-size:16px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:640px){.cols{grid-template-columns:1fr}}
+.col{border-radius:14px;padding:18px;text-align:center}
+.vista{background:#dcfce7}.parc{background:#fee2e2}
+.col b{display:block;font-size:24px;margin:6px 0}
+#veredito{text-align:center;font-size:19px;font-weight:800;border-radius:14px;padding:18px;background:#f0fdf4}
+footer{padding:20px;text-align:center;font-size:13px}
+footer a{color:#166534}
+</style></head>
+<body>
+<header><h1>💵 À Vista ou Parcelado</h1><p>A matemática do desconto na compra do imóvel</p>
+<nav><a href="https://praia.digital">Praia Digital</a><a href="https://praia.digital/consorcio-litoral">Consórcio vs Financiamento</a><a href="https://praia.digital/simulador-credito">Simulador de Crédito</a><a href="https://praia.digital/apps">Todos os apps</a></nav></header>
+<div class="wrap"><div class="panel">
+<label>🏠 Preço de tabela (R$)</label><input type="number" id="preco" value="600000" oninput="calc()">
+<label>🏷️ Desconto à vista (%)</label><input type="number" id="desc" value="7" oninput="calc()">
+<label>🏦 Taxa do financiamento (%/ano)</label><input type="number" id="taxa" value="10.5" step="0.1" oninput="calc()">
+<label>📅 Prazo (anos)</label><input type="number" id="anos" value="20" oninput="calc()">
+<label>📈 Rendimento se investir à vista (%/ano)</label><input type="number" id="rend" value="10" oninput="calc()">
+<div class="cols"><div class="col vista"><h3>💵 À vista</h3><div id="vOut"></div></div><div class="col parc"><h3>🏦 Parcelado</h3><div id="pOut"></div></div></div>
+</div><div id="veredito"></div></div>
+<footer>Rede <a href="https://praia.digital">praia.digital</a> · <a href="https://praia.digital/na-planta">Na Planta</a> · <a href="https://praia.digital/plano-litoral">Plano Litoral</a> · <a href="https://praia.digital/investidores-litoral">Investidores</a></footer>
+<script>
+function fmt(v){return 'R$ '+Math.round(v).toLocaleString('pt-BR')}
+function calc(){
+const P=+preco.value,d=+desc.value/100,i=+taxa.value/100/12,n=+anos.value*12,r=+rend.value/100;
+const avista=P*(1-d);
+const parc=P*i/(1-Math.pow(1+i,-n));const totParc=parc*n;
+const ganhoInv=avista*Math.pow(1+r,+anos.value)-avista;
+vOut.innerHTML=`Paga: <b>${fmt(avista)}</b>Economia de juros: <b>${fmt(totParc-avista)}</b>`;
+pOut.innerHTML=`Parcela: <b>${fmt(parc)}</b>Total pago: <b>${fmt(totParc)}</b><small>Mas o dinheiro à vista renderia ${fmt(ganhoInv)} em ${anos.value} anos</small>`;
+const vantagem=(totParc-avista)>ganhoInv;
+veredito.innerHTML=vantagem?`💵 À vista ganha: você economiza <b>${fmt(totParc-avista-ganhoInv)}</b> em relação a parcelar e investir. Negocie o desconto!`:`🏦 Parcelar e investir o dinheiro pode sair melhor: juros baixos + rendimento de ${+rend.value}%/ano viram o jogo a seu favor. Detalhes no <a href="https://praia.digital/consorcio-litoral">Consórcio vs Financiamento</a>.`;}
+calc();
+</script></body></html>
